@@ -1,18 +1,24 @@
 package DTOs;
 
-import java.sql.Date;
-
 public class Expense {
     private int expenseID;
     private String title;
     private String note;
     private double amount;
-    private Date dateIncurred;
+    private String dateIncurred;
 
-    public Expense() {}
+    public Expense() {
+    }
 
-    public Expense(int expenseID, String title, String note, double amount, Date dateIncurred) {
+    public Expense(int expenseID, String title, String note, double amount, String dateIncurred) {
         this.expenseID = expenseID;
+        this.title = title;
+        this.note = note;
+        this.amount = amount;
+        this.dateIncurred = dateIncurred;
+    }
+
+    public Expense(String title, String note, double amount, String dateIncurred) {
         this.title = title;
         this.note = note;
         this.amount = amount;
@@ -35,11 +41,11 @@ public class Expense {
         this.expenseID = expenseID;
     }
 
-    public Date getDateIncurred() {
+    public String getDateIncurred() {
         return dateIncurred;
     }
 
-    public void setDateIncurred(Date dateIncurred) {
+    public void setDateIncurred(String dateIncurred) {
         this.dateIncurred = dateIncurred;
     }
 

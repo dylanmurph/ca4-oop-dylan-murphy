@@ -1,18 +1,24 @@
 package DTOs;
 
-import java.sql.Date;
-
 public class Income {
     private int incomeID;
     private String title;
     private String note;
     private double amount;
-    private Date dateEarned;
+    private String dateEarned;
 
-    public Income() {}
+    public Income() {
+    }
 
-    public Income(int incomeID, String title, String note, double amount, Date dateEarned) {
+    public Income(int incomeID, String title, String note, double amount, String dateEarned) {
         this.incomeID = incomeID;
+        this.title = title;
+        this.note = note;
+        this.amount = amount;
+        this.dateEarned = dateEarned;
+    }
+
+    public Income(String title, String note, double amount, String dateEarned) {
         this.title = title;
         this.note = note;
         this.amount = amount;
@@ -36,11 +42,11 @@ public class Income {
         return incomeID;
     }
 
-    public Date getDateEarned() {
+    public String getDateEarned() {
         return dateEarned;
     }
 
-    public void setDateEarned(Date dateEarned) {
+    public void setDateEarned(String dateEarned) {
         this.dateEarned = dateEarned;
     }
 
