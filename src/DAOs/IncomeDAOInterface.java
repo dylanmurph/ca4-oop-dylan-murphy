@@ -15,4 +15,6 @@ public interface IncomeDAOInterface {
     boolean update(int id, Income newInc) throws SQLException;
 
     boolean delete(int id) throws SQLException;
+
+    List<Income> readByMonth(int month) throws SQLException;
 }

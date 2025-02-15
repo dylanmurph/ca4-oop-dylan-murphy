@@ -1,9 +1,6 @@
 // OOP CA4_DATABASE_DAO - D00223094 - D00223094 - Dylan Murphy
 
-import Util.IncomeUtil;
-import Util.ExpensesUtil;
-import Util.ColourUtil;
-import Util.ValidateUtil;
+import Util.*;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -39,7 +36,17 @@ public class Main {
                     expensesMenu();
                     break;
                 case "3":
-                    //ExpensesUtil.generateMonthlyReport();
+                    while (true) {
+                        int month = ValidateUtil.getValidInt("Enter a month 1-12");
+                        if (month != 0) {
+                            if (month >= 1 && month <= 12) {
+                                AccountsUtil.generateMonthlyReport(month);
+                                break;
+                            } else {
+                                System.out.println("Enter month between 1-12.");
+                            }
+                        }
+                    }
                     break;
                 case "4":
                     System.out.println(ColourUtil.red("Exiting the application."));
@@ -53,6 +60,7 @@ public class Main {
     private static void incomeMenu() throws SQLException {
         String input;
         int id;
+        double total;
         do {
             System.out.print("""
                     \n  --------------------------
@@ -72,7 +80,7 @@ public class Main {
 
             switch (input) {
                 case "1":
-                    //IncomeUtil.showIncomeTable();
+                    IncomeUtil.showIncomeTable();
                     break;
                 case "2":
                     IncomeUtil.addIncome();
@@ -90,10 +98,28 @@ public class Main {
                     }
                     break;
                 case "5":
-                    //IncomeUtil.deleteIncome();
-                    break;
+                    id = ValidateUtil.getValidInt("Enter Income id to delete");
+                    if (id != 0) {
+                        IncomeUtil.readIncome(id);
+                        while (true) {
+                            System.out.println("Are you sure you want to delete? (y/n)");
+                            input = kb.nextLine().trim();
+
+                            if (input.equalsIgnoreCase("y")) {
+                                IncomeUtil.deleteIncome(id);
+                                break;
+                            } else if (input.equalsIgnoreCase("n")) {
+                                System.out.println("Returning to menu.");
+                                break;
+                            } else {
+                                System.out.println("Invalid input. Please enter 'y' or 'n'.");
+                            }
+                        }
+                    }
+
                 case "6":
-                    //IncomeUtil.calculateTotalIncome();
+                    total = IncomeUtil.calculateTotalIncome();
+                    System.out.println("Total income = " + total);
                     break;
                 case "7":
                     System.out.println(ColourUtil.green("Returning to Main Menu."));
@@ -107,6 +133,7 @@ public class Main {
     private static void expensesMenu() throws SQLException {
         String input;
         int id;
+        double total;
         do {
             System.out.print("""
                     \n  --------------------------
@@ -126,30 +153,48 @@ public class Main {
 
             switch (input) {
                 case "1":
-                    //ExpensesUtil.showExpenseTable();
+                    ExpenseUtil.showExpensesTable();
                     break;
                 case "2":
-                    ExpensesUtil.addExpense();
+                    ExpenseUtil.addExpense();
                     break;
                 case "3":
                     id = ValidateUtil.getValidInt("Enter Expense id to read");
-                    if (id != 0 && ExpensesUtil.readExpense(id)) {
+                    if (id != 0 && ExpenseUtil.readExpense(id)) {
                         break;
                     }
                     break;
                 case "4":
                     id = ValidateUtil.getValidInt("Enter Expense id to update");
                     if (id != 0) {
-                        if (ExpensesUtil.updateExpense(id)) {
+                        if (ExpenseUtil.updateExpense(id)) {
                             break;
                         }
                     }
                     break;
                 case "5":
-                    //ExpensesUtil.deleteExpense();
+                    id = ValidateUtil.getValidInt("Enter Expense id to delete");
+                    if (id != 0) {
+                        ExpenseUtil.readExpense(id);
+                        while (true) {
+                            System.out.println("Are you sure you want to delete? (y/n)");
+                            input = kb.nextLine().trim();
+
+                            if (input.equalsIgnoreCase("y")) {
+                                ExpenseUtil.deleteExpense(id);
+                                break;
+                            } else if (input.equalsIgnoreCase("n")) {
+                                System.out.println("Returning to menu.");
+                                break;
+                            } else {
+                                System.out.println("Invalid input. Please enter 'y' or 'n'.");
+                            }
+                        }
+                    }
                     break;
                 case "6":
-                    //ExpensesUtil.calculateTotalExpenses();
+                    total = ExpenseUtil.calculateTotalExpenses();
+                    System.out.println("Total expenses = " + total);
                     break;
                 case "7":
                     System.out.println(ColourUtil.green("Returning to Main Menu."));

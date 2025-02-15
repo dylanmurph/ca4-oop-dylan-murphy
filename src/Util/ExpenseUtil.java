@@ -4,11 +4,25 @@ import DAOs.ExpenseDAO;
 import DTOs.Expense;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-public class ExpensesUtil {
+public class ExpenseUtil {
     private static final ExpenseDAO expense = new ExpenseDAO();
 
-    public static void showExpenseTable() throws SQLException {
+    public static void showExpensesTable() throws SQLException {
+        ArrayList<Expense> expensesTable = expense.readAll();
+        System.out.println(" " + "-".repeat(181));
+        System.out.printf("| %-5s | %-40s | %-100s | %-10s | %-12s |%n", "ID", "Title", "Note", "Date", "Amount");
+        System.out.println(" " + "-".repeat(181));
+        for (Expense e : expensesTable) {
+            System.out.printf("| %-5d | %-40s | %-100s | %-10.2f | %-12s |%n",
+                    e.getId(),
+                    e.getTitle(),
+                    e.getNote(),
+                    e.getAmount(),
+                    e.getDateIncurred());
+        }
+        System.out.println(" " + "-".repeat(181));
     }
 
     public static void addExpense() throws SQLException {
@@ -46,7 +60,7 @@ public class ExpensesUtil {
             System.out.println(e);
             return true;
         } else {
-            System.out.println(ColourUtil.red("Expense not found. Please try again."));
+            System.out.println(ColourUtil.red("Expense not found."));
             return false;
         }
     }
@@ -56,7 +70,7 @@ public class ExpensesUtil {
         if (e != null) {
             System.out.println(e + "\n Enter details to update.");
         } else {
-            System.out.println("Expense not found. Please try again.");
+            System.out.println("Expense not found.");
             return false;
         }
 
@@ -90,14 +104,20 @@ public class ExpensesUtil {
         }
     }
 
-    public static void deleteExpense() throws SQLException {
+    public static void deleteExpense(int id) throws SQLException {
+        if (expense.delete(id)) {
+            System.out.println(ColourUtil.green("Expense deleted successfully."));
+        } else {
+            System.out.println(ColourUtil.red("Expense delete failed"));
+        }
     }
 
-    public static void calculateTotalExpenses() throws SQLException {
+    public static double calculateTotalExpenses() throws SQLException {
+        ArrayList<Expense> expenses = expense.readAll();
+        double total = 0;
+        for (Expense e : expenses) {
+            total += e.getAmount();
+        }
+        return total;
     }
-
-    public static void generateMonthlyReport() throws SQLException {
-    }
-
-
 }

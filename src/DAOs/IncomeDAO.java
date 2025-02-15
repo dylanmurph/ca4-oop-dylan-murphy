@@ -1,5 +1,6 @@
 package DAOs;
 
+import DTOs.Expense;
 import DTOs.Income;
 import Database.DbConnect;
 
@@ -12,6 +13,7 @@ public class IncomeDAO implements IncomeDAOInterface {
     private static final String CREATE = "INSERT INTO income (title, note, amount, dateEarned) VALUES (?, ?, ?, ?)";
     private static final String READ = "SELECT * FROM income WHERE incomeID = ?";
     private static final String READ_ALL = "SELECT * FROM income";
+    private static final String READ_BY_MONTH = "SELECT * FROM income WHERE month(dateEarned) = ?";
     private static final String UPDATE = "UPDATE income SET title = ?, note = ?, amount = ?, dateEarned = ? WHERE incomeID = ?";
     private static final String DELETE = "DELETE FROM income WHERE incomeID = ?";
 
@@ -92,6 +94,36 @@ public class IncomeDAO implements IncomeDAOInterface {
             }
         }
         return income;
+    }
+
+    @Override
+    public ArrayList<Income> readByMonth(int month) throws SQLException {
+        ArrayList<Income> incomes = new ArrayList<>();
+
+        try (Connection conn = db.start()) {
+            if (conn == null) {
+                return incomes;
+            }
+
+            try (PreparedStatement ps = conn.prepareStatement(READ_BY_MONTH)) {
+                ps.setInt(1, month);
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        incomes.add(new Income(
+                                rs.getInt("incomeID"),
+                                rs.getString("title"),
+                                rs.getString("note"),
+                                rs.getDouble("amount"),
+                                rs.getString("dateEarned")
+                        ));
+                    }
+                }
+            }
+
+
+        }
+        return incomes;
     }
 
     @Override
