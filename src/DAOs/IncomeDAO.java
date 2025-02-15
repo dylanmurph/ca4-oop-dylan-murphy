@@ -26,7 +26,7 @@ public class IncomeDAO implements IncomeDAOInterface {
                 ps.setString(1, income.getTitle());
                 ps.setString(2, income.getNote());
                 ps.setDouble(3, income.getAmount());
-                ps.setDate(4, income.getDateEarned());
+                ps.setString(4, income.getDateEarned());
 
                 if (ps.executeUpdate() > 0) {
                     try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -58,7 +58,7 @@ public class IncomeDAO implements IncomeDAOInterface {
                                 rs.getString("title"),
                                 rs.getString("note"),
                                 rs.getDouble("amount"),
-                                rs.getDate("dateEarned")
+                                rs.getString("dateEarned")
                         );
                     }
                 }
@@ -86,7 +86,7 @@ public class IncomeDAO implements IncomeDAOInterface {
                             rs.getString("title"),
                             rs.getString("note"),
                             rs.getDouble("amount"),
-                            rs.getDate("dateEarned")
+                            rs.getString("dateEarned")
                     ));
                 }
             }
@@ -105,7 +105,7 @@ public class IncomeDAO implements IncomeDAOInterface {
                 ps.setString(1, newInc.getTitle());
                 ps.setString(2, newInc.getNote());
                 ps.setDouble(3, newInc.getAmount());
-                ps.setDate(4, newInc.getDateEarned());
+                ps.setString(4, newInc.getDateEarned());
                 ps.setInt(5, id);
 
                 return ps.executeUpdate() > 0;
