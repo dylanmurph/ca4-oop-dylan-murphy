@@ -1,6 +1,5 @@
 package DAOs;
 
-import DTOs.Expense;
 import DTOs.Income;
 import Database.DbConnect;
 
@@ -28,7 +27,7 @@ public class IncomeDAO implements IncomeDAOInterface {
                 ps.setString(1, income.getTitle());
                 ps.setString(2, income.getNote());
                 ps.setDouble(3, income.getAmount());
-                ps.setString(4, income.getDateEarned());
+                ps.setString(4, income.getDate());
 
                 if (ps.executeUpdate() > 0) {
                     try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -137,7 +136,7 @@ public class IncomeDAO implements IncomeDAOInterface {
                 ps.setString(1, newInc.getTitle());
                 ps.setString(2, newInc.getNote());
                 ps.setDouble(3, newInc.getAmount());
-                ps.setString(4, newInc.getDateEarned());
+                ps.setString(4, newInc.getDate());
                 ps.setInt(5, id);
 
                 return ps.executeUpdate() > 0;

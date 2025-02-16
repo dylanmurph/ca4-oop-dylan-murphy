@@ -9,48 +9,37 @@ import java.util.ArrayList;
 public class ExpenseUtil {
     private static final ExpenseDAO expense = new ExpenseDAO();
 
-    public static void showExpensesTable() throws SQLException {
-        ArrayList<Expense> expensesTable = expense.readAll();
+    public static void printExpenseTable(ArrayList<Expense> expenseTable) {
         System.out.println(" " + "-".repeat(181));
-        System.out.printf("| %-5s | %-40s | %-100s | %-10s | %-12s |%n", "ID", "Title", "Note", "Date", "Amount");
+        System.out.printf("| %-5s | %-40s | %-100s | %-10s | %-12s |%n", "ID", "Title", "Note", "Amount", "Date");
         System.out.println(" " + "-".repeat(181));
-        for (Expense e : expensesTable) {
+
+        for (Expense e : expenseTable) {
             System.out.printf("| %-5d | %-40s | %-100s | %-10.2f | %-12s |%n",
                     e.getId(),
                     e.getTitle(),
                     e.getNote(),
                     e.getAmount(),
-                    e.getDateIncurred());
+                    e.getDate());
         }
+
         System.out.println(" " + "-".repeat(181));
     }
 
-    public static void addExpense() throws SQLException {
-        String newTitle = ValidateUtil.getValidTitle();
-        if (newTitle == null) {
-            return;
-        }
+    public static void showExpenseTable() throws SQLException {
+        ArrayList<Expense> expenseTable = expense.readAll();
+        printExpenseTable(expenseTable);
+    }
 
-        String newNote = ValidateUtil.getValidNote();
-        if (newNote == null) {
-            return;
-        }
+    public static boolean addExpense() throws SQLException {
+        Expense newExpense = (Expense) AccountsUtil.validateDbInput("Expense");
 
-        double amount = ValidateUtil.getValidAmount();
-        if (amount == -1) {
-            return;
-        }
-
-        String newDate = ValidateUtil.getValidDate();
-        if (newDate == null) {
-            return;
-        }
-
-        Expense newExpense = new Expense(newTitle, newNote, amount, newDate);
-        if (expense.create(newExpense)) {
+        if (newExpense != null && expense.create(newExpense)) {
             System.out.println(ColourUtil.green("Expense added successfully."));
+            return true;
         } else {
             System.out.println(ColourUtil.red("Expense creation failed."));
+            return false;
         }
     }
 
@@ -60,42 +49,22 @@ public class ExpenseUtil {
             System.out.println(e);
             return true;
         } else {
-            System.out.println(ColourUtil.red("Expense not found."));
+            System.out.println(ColourUtil.red("Expense not found"));
             return false;
         }
     }
 
     public static boolean updateExpense(int id) throws SQLException {
         Expense e = expense.read(id);
-        if (e != null) {
-            System.out.println(e + "\n Enter details to update.");
-        } else {
-            System.out.println("Expense not found.");
+        if (e == null) {
+            System.out.println(ColourUtil.red("Expense not found"));
             return false;
         }
 
-        String newTitle = ValidateUtil.getValidTitle();
-        if (newTitle == null) {
-            return false;
-        }
+        System.out.println(e + "\n Enter details to update.");
+        Expense updatedExpense = (Expense) AccountsUtil.validateDbInput("Expense");
 
-        String newNote = ValidateUtil.getValidNote();
-        if (newNote == null) {
-            return false;
-        }
-
-        double amount = ValidateUtil.getValidAmount();
-        if (amount == -1) {
-            return false;
-        }
-
-        String newDate = ValidateUtil.getValidDate();
-        if (newDate == null) {
-            return false;
-        }
-
-        Expense updatedExpense = new Expense(newTitle, newNote, amount, newDate);
-        if (expense.update(id, updatedExpense)) {
+        if (updatedExpense != null && expense.update(id, updatedExpense)) {
             System.out.println(ColourUtil.green("Expense updated successfully."));
             return true;
         } else {
@@ -104,11 +73,13 @@ public class ExpenseUtil {
         }
     }
 
-    public static void deleteExpense(int id) throws SQLException {
+    public static boolean deleteExpense(int id) throws SQLException {
         if (expense.delete(id)) {
             System.out.println(ColourUtil.green("Expense deleted successfully."));
+            return true;
         } else {
             System.out.println(ColourUtil.red("Expense delete failed"));
+            return false;
         }
     }
 

@@ -27,7 +27,7 @@ public class ExpenseDAO implements ExpenseDAOInterface {
                 ps.setString(1, expense.getTitle());
                 ps.setString(2, expense.getNote());
                 ps.setDouble(3, expense.getAmount());
-                ps.setString(4, expense.getDateIncurred());
+                ps.setString(4, expense.getDate());
 
                 if (ps.executeUpdate() > 0) {
                     try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -135,7 +135,7 @@ public class ExpenseDAO implements ExpenseDAOInterface {
                 ps.setString(1, newExp.getTitle());
                 ps.setString(2, newExp.getNote());
                 ps.setDouble(3, newExp.getAmount());
-                ps.setString(4, newExp.getDateIncurred());
+                ps.setString(4, newExp.getDate());
                 ps.setInt(5, id);
 
                 return ps.executeUpdate() > 0;

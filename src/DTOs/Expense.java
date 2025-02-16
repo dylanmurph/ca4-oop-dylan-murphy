@@ -1,28 +1,28 @@
 package DTOs;
 
 public class Expense {
-    private int expenseID;
+    private int id;
     private String title;
     private String note;
     private double amount;
-    private String dateIncurred;
+    private String date;
 
     public Expense() {
     }
 
-    public Expense(int expenseID, String title, String note, double amount, String dateIncurred) {
-        this.expenseID = expenseID;
+    public Expense(int id, String title, String note, double amount, String date) {
+        this.id = id;
         this.title = title;
         this.note = note;
         this.amount = amount;
-        this.dateIncurred = dateIncurred;
+        this.date = date;
     }
 
-    public Expense(String title, String note, double amount, String dateIncurred) {
+    public Expense(String title, String note, double amount, String date) {
         this.title = title;
         this.note = note;
         this.amount = amount;
-        this.dateIncurred = dateIncurred;
+        this.date = date;
     }
 
     public String getTitle() {
@@ -34,19 +34,19 @@ public class Expense {
     }
 
     public int getId() {
-        return expenseID;
+        return id;
     }
 
-    public void setId(int expenseID) {
-        this.expenseID = expenseID;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getDateIncurred() {
-        return dateIncurred;
+    public String getDate() {
+        return date;
     }
 
-    public void setDateIncurred(String dateIncurred) {
-        this.dateIncurred = dateIncurred;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public double getAmount() {
@@ -68,6 +68,6 @@ public class Expense {
     @Override
     public String toString() {
         return String.format("Expense [ID: %d, Title: %s, Note: %s, Amount: %f, Date Incurred: %s]",
-                expenseID, title, note, amount, dateIncurred);
+                id, title, note, amount, date);
     }
 }

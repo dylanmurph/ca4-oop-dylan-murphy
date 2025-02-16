@@ -1,28 +1,28 @@
 package DTOs;
 
 public class Income {
-    private int incomeID;
+    private int id;
     private String title;
     private String note;
     private double amount;
-    private String dateEarned;
+    private String date;
 
     public Income() {
     }
 
-    public Income(int incomeID, String title, String note, double amount, String dateEarned) {
-        this.incomeID = incomeID;
+    public Income(int id, String title, String note, double amount, String date) {
+        this.id = id;
         this.title = title;
         this.note = note;
         this.amount = amount;
-        this.dateEarned = dateEarned;
+        this.date = date;
     }
 
-    public Income(String title, String note, double amount, String dateEarned) {
+    public Income(String title, String note, double amount, String date) {
         this.title = title;
         this.note = note;
         this.amount = amount;
-        this.dateEarned = dateEarned;
+        this.date = date;
     }
 
 
@@ -34,20 +34,20 @@ public class Income {
         this.title = title;
     }
 
-    public void setId(int incomeID) {
-        this.incomeID = incomeID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {
-        return incomeID;
+        return id;
     }
 
-    public String getDateEarned() {
-        return dateEarned;
+    public String getDate() {
+        return date;
     }
 
-    public void setDateEarned(String dateEarned) {
-        this.dateEarned = dateEarned;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public double getAmount() {
@@ -69,6 +69,6 @@ public class Income {
     @Override
     public String toString() {
         return String.format("Income [ID: %d, Title: %s, Note: %s, Amount: %f, Date Earned: %s]",
-                incomeID, title, note, amount, dateEarned);
+                id, title, note, amount, date);
     }
 }
