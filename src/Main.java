@@ -1,4 +1,4 @@
-// OOP CA4_DATABASE_DAO - D00223094 - D00223094 - Dylan Murphy
+// OOP CA4_DATABASE_DAO - D00223094 - Dylan Murphy
 
 import Util.*;
 
@@ -116,7 +116,7 @@ public class Main {
                             }
                         }
                     }
-
+                    break;
                 case "6":
                     total = IncomeUtil.calculateTotalIncome();
                     System.out.println("Total income = " + total);
@@ -153,7 +153,7 @@ public class Main {
 
             switch (input) {
                 case "1":
-                    ExpenseUtil.showExpensesTable();
+                    ExpenseUtil.showExpenseTable();
                     break;
                 case "2":
                     ExpenseUtil.addExpense();
