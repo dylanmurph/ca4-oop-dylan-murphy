@@ -19,10 +19,6 @@ public class IncomeDAO implements IncomeDAOInterface {
     @Override
     public boolean create(Income income) throws SQLException {
         try (Connection conn = db.start()) {
-            if (conn == null) {
-                return false;
-            }
-
             try (PreparedStatement ps = conn.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, income.getTitle());
                 ps.setString(2, income.getNote());
@@ -42,13 +38,10 @@ public class IncomeDAO implements IncomeDAOInterface {
         return false;
     }
 
+
     @Override
     public Income read(int id) throws SQLException {
         try (Connection conn = db.start()) {
-            if (conn == null) {
-                return null;
-            }
-
             try (PreparedStatement ps = conn.prepareStatement(READ)) {
                 ps.setInt(1, id);
 
@@ -74,36 +67,30 @@ public class IncomeDAO implements IncomeDAOInterface {
         ArrayList<Income> income = new ArrayList<>();
 
         try (Connection conn = db.start()) {
-            if (conn == null) {
-                return income;
-            }
+            try (PreparedStatement ps = conn.prepareStatement(READ_ALL)) {
+                try (ResultSet rs = ps.executeQuery()) {
 
-            try (PreparedStatement ps = conn.prepareStatement(READ_ALL);
-                 ResultSet rs = ps.executeQuery()) {
-
-                while (rs.next()) {
-                    income.add(new Income(
-                            rs.getInt("incomeID"),
-                            rs.getString("title"),
-                            rs.getString("note"),
-                            rs.getDouble("amount"),
-                            rs.getString("dateEarned")
-                    ));
+                    while (rs.next()) {
+                        income.add(new Income(
+                                rs.getInt("incomeID"),
+                                rs.getString("title"),
+                                rs.getString("note"),
+                                rs.getDouble("amount"),
+                                rs.getString("dateEarned")
+                        ));
+                    }
                 }
             }
         }
         return income;
     }
 
+
     @Override
     public ArrayList<Income> readByMonth(int month) throws SQLException {
         ArrayList<Income> incomes = new ArrayList<>();
 
         try (Connection conn = db.start()) {
-            if (conn == null) {
-                return incomes;
-            }
-
             try (PreparedStatement ps = conn.prepareStatement(READ_BY_MONTH)) {
                 ps.setInt(1, month);
 
@@ -119,19 +106,14 @@ public class IncomeDAO implements IncomeDAOInterface {
                     }
                 }
             }
-
-
         }
         return incomes;
     }
 
+
     @Override
     public boolean update(int id, Income newInc) throws SQLException {
         try (Connection conn = db.start()) {
-            if (conn == null) {
-                return false;
-            }
-
             try (PreparedStatement ps = conn.prepareStatement(UPDATE)) {
                 ps.setString(1, newInc.getTitle());
                 ps.setString(2, newInc.getNote());
@@ -144,13 +126,10 @@ public class IncomeDAO implements IncomeDAOInterface {
         }
     }
 
+
     @Override
     public boolean delete(int id) throws SQLException {
         try (Connection conn = db.start()) {
-            if (conn == null) {
-                return false;
-            }
-
             try (PreparedStatement ps = conn.prepareStatement(DELETE)) {
                 ps.setInt(1, id);
                 return ps.executeUpdate() > 0;

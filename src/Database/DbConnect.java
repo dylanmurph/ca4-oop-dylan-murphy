@@ -16,17 +16,7 @@ public class DbConnect {
         this.password = password;
     }
 
-    public Connection start() {
-        System.out.println("\nAttempting connection to database: " + dbName);
-
-        try {
-            Connection conn = DriverManager.getConnection(this.url + this.dbName, this.userName, this.password);
-            System.out.println("Successfully connected to Database: " + dbName);
-            return conn;
-        } catch (SQLException ex) {
-            System.out.println("Failed to connect to database: " + dbName);
-            ex.printStackTrace();
-            return null;
-        }
+    public Connection start() throws SQLException {
+            return DriverManager.getConnection(this.url + this.dbName, this.userName, this.password);
     }
 }
