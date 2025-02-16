@@ -12,6 +12,7 @@ public class ExpenseDAO implements ExpenseDAOInterface {
     private static final String CREATE = "INSERT INTO expenses (title, note, amount, dateIncurred) VALUES (?, ?, ?, ?)";
     private static final String READ = "SELECT * FROM expenses WHERE expenseID = ?";
     private static final String READ_ALL = "SELECT * FROM expenses";
+    private static final String READ_BY_MONTH = "SELECT * FROM expenses WHERE month(dateIncurred) = ?";
     private static final String UPDATE = "UPDATE expenses SET title = ?, note = ?, amount = ?, dateIncurred = ? WHERE expenseID = ?";
     private static final String DELETE = "DELETE FROM expenses WHERE expenseID = ?";
 
@@ -89,6 +90,36 @@ public class ExpenseDAO implements ExpenseDAOInterface {
                     ));
                 }
             }
+        }
+        return expenses;
+    }
+
+    @Override
+    public ArrayList<Expense> readByMonth(int month) throws SQLException {
+        ArrayList<Expense> expenses = new ArrayList<>();
+
+        try (Connection conn = db.start()) {
+            if (conn == null) {
+                return expenses;
+            }
+
+            try (PreparedStatement ps = conn.prepareStatement(READ_BY_MONTH)) {
+                ps.setInt(1, month);
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        expenses.add(new Expense(
+                                rs.getInt("expenseID"),
+                                rs.getString("title"),
+                                rs.getString("note"),
+                                rs.getDouble("amount"),
+                                rs.getString("dateIncurred")
+                        ));
+                    }
+                }
+            }
+
+
         }
         return expenses;
     }

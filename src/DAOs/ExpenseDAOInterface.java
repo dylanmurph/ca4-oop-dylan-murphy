@@ -15,4 +15,6 @@ public interface ExpenseDAOInterface {
     boolean update(int id, Expense newExp) throws SQLException;
 
     boolean delete(int id) throws SQLException;
+
+    List<Expense> readByMonth(int month) throws SQLException;
 }

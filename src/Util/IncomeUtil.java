@@ -4,11 +4,25 @@ import DAOs.IncomeDAO;
 import DTOs.Income;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class IncomeUtil {
     private static final IncomeDAO income = new IncomeDAO();
 
     public static void showIncomeTable() throws SQLException {
+        ArrayList<Income> incomeTable = income.readAll();
+        System.out.println(" " + "-".repeat(181));
+        System.out.printf("| %-5s | %-40s | %-100s | %-10s | %-12s |%n", "ID", "Title", "Note", "Date", "Amount");
+        System.out.println(" " + "-".repeat(181));
+        for (Income i : incomeTable) {
+            System.out.printf("| %-5d | %-40s | %-100s | %-10.2f | %-12s |%n",
+                    i.getId(),
+                    i.getTitle(),
+                    i.getNote(),
+                    i.getAmount(),
+                    i.getDateEarned());
+        }
+        System.out.println(" " + "-".repeat(181));
     }
 
     public static void addIncome() throws SQLException {
@@ -46,7 +60,7 @@ public class IncomeUtil {
             System.out.println(i);
             return true;
         } else {
-            System.out.println(ColourUtil.red("Income not found. Please try again."));
+            System.out.println(ColourUtil.red("Income not found"));
             return false;
         }
     }
@@ -56,7 +70,7 @@ public class IncomeUtil {
         if (i != null) {
             System.out.println(i + "\n Enter details to update.");
         } else {
-            System.out.println(ColourUtil.red("Income not found. Please try again."));
+            System.out.println(ColourUtil.red("Income not found"));
             return false;
         }
 
@@ -90,10 +104,21 @@ public class IncomeUtil {
         }
     }
 
-    public static void deleteIncome() throws SQLException {
+    public static void deleteIncome(int id) throws SQLException {
+        if (income.delete(id)) {
+            System.out.println(ColourUtil.green("Income deleted successfully."));
+        } else {
+            System.out.println(ColourUtil.red("Income delete failed"));
+        }
     }
 
-    public static void calculateTotalIncome() throws SQLException {
+    public static double calculateTotalIncome() throws SQLException {
+        ArrayList<Income> incomes = income.readAll();
+        double total = 0;
+        for (Income i : incomes) {
+            total += i.getAmount();
+        }
+        return total;
     }
 
 }
