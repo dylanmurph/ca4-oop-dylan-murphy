@@ -1,5 +1,7 @@
 package DTOs;
 
+import Util.ColourUtil;
+
 public class Expense {
     private int id;
     private String title;
@@ -67,7 +69,7 @@ public class Expense {
 
     @Override
     public String toString() {
-        return String.format("Expense [ID: %d, Title: %s, Note: %s, Amount: %f, Date Incurred: %s]",
+        return String.format(ColourUtil.yellow("Expense ID: %d\nTitle: %s\nNote: %s\nAmount: %f\nDate Incurred: %s"),
                 id, title, note, amount, date);
     }
 }
