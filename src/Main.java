@@ -1,20 +1,19 @@
 // OOP CA4_DATABASE_DAO - D00223094 - Dylan Murphy
 
 import Util.*;
-
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
     private static final Scanner kb = new Scanner(System.in);
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args){
         mainMenu();
     }
 
-    public static void mainMenu() throws SQLException {
+    public static void mainMenu(){
         String input;
         do {
+            ColourUtil.startWhite();
             System.out.print("""
                     \n  -------------------------
                      | --- Account Tracker --- |
@@ -25,6 +24,7 @@ public class Main {
                      | -- Choose 1, 2, 3 or 4  |
                       -------------------------
                       Enter Option:\s""");
+            ColourUtil.reset();
 
             input = kb.nextLine().trim();
 
@@ -43,7 +43,7 @@ public class Main {
                                 AccountsUtil.generateMonthlyReport(month);
                                 break;
                             } else {
-                                System.out.println("Enter month between 1-12.");
+                                System.out.println(ColourUtil.red("Invalid input"));
                             }
                         }
                     }
@@ -57,13 +57,14 @@ public class Main {
         } while (!input.equals("4"));
     }
 
-    private static void incomeMenu() throws SQLException {
+    private static void incomeMenu(){
         String input;
         int id;
         double total;
         do {
+            ColourUtil.startWhite();
             System.out.print("""
-                    \n  --------------------------
+                    \n  ---------------------------
                      | --- Income Management --- |
                      | 1. Show Income Table      |
                      | 2. Add Income             |
@@ -75,6 +76,7 @@ public class Main {
                      | -- Choose 1 - 7           |
                       --------------------------
                       Enter Option:\s""");
+            ColourUtil.reset();
 
             input = kb.nextLine().trim();
 
@@ -102,24 +104,26 @@ public class Main {
                     if (id != 0) {
                         IncomeUtil.readIncome(id);
                         while (true) {
-                            System.out.println("Are you sure you want to delete? (y/n)");
+                            System.out.println(ColourUtil.yellow("Are you sure you want to delete? (y/n)"));
                             input = kb.nextLine().trim();
 
                             if (input.equalsIgnoreCase("y")) {
                                 IncomeUtil.deleteIncome(id);
                                 break;
                             } else if (input.equalsIgnoreCase("n")) {
-                                System.out.println("Returning to menu.");
+                                System.out.println(ColourUtil.red("Returning to menu."));
                                 break;
                             } else {
-                                System.out.println("Invalid input. Please enter 'y' or 'n'.");
+                                System.out.println(ColourUtil.red("Invalid input. Please enter 'y' or 'n'."));
                             }
                         }
                     }
                     break;
                 case "6":
                     total = IncomeUtil.calculateTotalIncome();
-                    System.out.println("Total income = " + total);
+                    if(total != -1){
+                        System.out.println(ColourUtil.green("Total income = " + total));
+                    }
                     break;
                 case "7":
                     System.out.println(ColourUtil.green("Returning to Main Menu."));
@@ -130,13 +134,14 @@ public class Main {
         } while (!input.equals("7"));
     }
 
-    private static void expensesMenu() throws SQLException {
+    private static void expensesMenu(){
         String input;
         int id;
         double total;
         do {
+            ColourUtil.startWhite();
             System.out.print("""
-                    \n  --------------------------
+                    \n  ----------------------------
                      | --- Expense Management --- |
                      | 1. Show Expense Table      |
                      | 2. Add Expense             |
@@ -148,6 +153,7 @@ public class Main {
                      | -- Choose 1 - 7            |
                       ----------------------------
                       Enter Option:\s""");
+            ColourUtil.reset();
 
             input = kb.nextLine().trim();
 
@@ -177,24 +183,26 @@ public class Main {
                     if (id != 0) {
                         ExpenseUtil.readExpense(id);
                         while (true) {
-                            System.out.println("Are you sure you want to delete? (y/n)");
+                            System.out.println(ColourUtil.yellow("Are you sure you want to delete? (y/n)"));
                             input = kb.nextLine().trim();
 
                             if (input.equalsIgnoreCase("y")) {
                                 ExpenseUtil.deleteExpense(id);
                                 break;
                             } else if (input.equalsIgnoreCase("n")) {
-                                System.out.println("Returning to menu.");
+                                System.out.println(ColourUtil.red("Returning to menu."));
                                 break;
                             } else {
-                                System.out.println("Invalid input. Please enter 'y' or 'n'.");
+                                System.out.println(ColourUtil.red("Invalid input. Please enter 'y' or 'n'."));
                             }
                         }
                     }
                     break;
                 case "6":
                     total = ExpenseUtil.calculateTotalExpenses();
-                    System.out.println("Total expenses = " + total);
+                    if(total != -1){
+                        System.out.println(ColourUtil.red("Total expenses = " + total));
+                    }
                     break;
                 case "7":
                     System.out.println(ColourUtil.green("Returning to Main Menu."));

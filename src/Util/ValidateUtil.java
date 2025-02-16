@@ -10,8 +10,7 @@ public class ValidateUtil {
     public static int getValidInt(String message) {
         int num;
         while (true) {
-            System.out.println(message);
-            System.out.println("[Type '/quit' to return to menu]");
+            System.out.println(ColourUtil.yellow(message + "\n[Type '/quit' to return to menu]"));
             String input = kb.nextLine().trim();
 
             if (input.equalsIgnoreCase("/quit")) {
@@ -33,8 +32,7 @@ public class ValidateUtil {
         String title;
 
         while (true) {
-            System.out.println("Enter title: ");
-            System.out.println("[Type '/quit' to return to menu]");
+            System.out.println(ColourUtil.yellow("Enter Title: \n[Type '/quit' to return to menu]"));
             title = kb.nextLine().trim();
 
             if (title.equalsIgnoreCase("/quit")) {
@@ -51,12 +49,12 @@ public class ValidateUtil {
         return title;
     }
 
+
     public static String getValidNote() {
         String note;
 
         while (true) {
-            System.out.println("Enter note: ");
-            System.out.println("[Type '/quit' to return to menu]");
+            System.out.println(ColourUtil.yellow("Enter Note: \n[Type '/quit' to return to menu]"));
             note = kb.nextLine().trim();
 
             if (note.equalsIgnoreCase("/quit")) {
@@ -74,10 +72,10 @@ public class ValidateUtil {
         return note;
     }
 
+
     public static double getValidAmount() {
         while (true) {
-            System.out.println("Enter amount: ");
-            System.out.println("[Type '/quit' to return to menu]");
+            System.out.println(ColourUtil.yellow("Enter Amount: \n[Type '/quit' to return to menu]"));
             String input = kb.nextLine().trim();
 
             if (input.equalsIgnoreCase("/quit")) {
@@ -104,8 +102,7 @@ public class ValidateUtil {
         sdf.setLenient(false);
 
         while (true) {
-            System.out.println("Enter date format: YYYY-MM-DD: ");
-            System.out.println("[Type '/quit' to return to menu]");
+            System.out.println(ColourUtil.yellow("Enter date format: YYYY-MM-DD: \n[Type '/quit' to return to menu]"));
             String date = kb.nextLine().trim();
 
             if (date.equalsIgnoreCase("/quit")) {

@@ -19,10 +19,6 @@ public class ExpenseDAO implements ExpenseDAOInterface {
     @Override
     public boolean create(Expense expense) throws SQLException {
         try (Connection conn = db.start()) {
-            if (conn == null) {
-                return false;
-            }
-
             try (PreparedStatement ps = conn.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, expense.getTitle());
                 ps.setString(2, expense.getNote());
@@ -42,13 +38,10 @@ public class ExpenseDAO implements ExpenseDAOInterface {
         return false;
     }
 
+
     @Override
     public Expense read(int id) throws SQLException {
         try (Connection conn = db.start()) {
-            if (conn == null) {
-                return null;
-            }
-
             try (PreparedStatement ps = conn.prepareStatement(READ)) {
                 ps.setInt(1, id);
 
@@ -68,41 +61,36 @@ public class ExpenseDAO implements ExpenseDAOInterface {
         return null;
     }
 
+
     @Override
     public ArrayList<Expense> readAll() throws SQLException {
         ArrayList<Expense> expenses = new ArrayList<>();
 
         try (Connection conn = db.start()) {
-            if (conn == null) {
-                return expenses;
-            }
+            try (PreparedStatement ps = conn.prepareStatement(READ_ALL)) {
+                try (ResultSet rs = ps.executeQuery()) {
 
-            try (PreparedStatement ps = conn.prepareStatement(READ_ALL);
-                 ResultSet rs = ps.executeQuery()) {
-
-                while (rs.next()) {
-                    expenses.add(new Expense(
-                            rs.getInt("expenseID"),
-                            rs.getString("title"),
-                            rs.getString("note"),
-                            rs.getDouble("amount"),
-                            rs.getString("dateIncurred")
-                    ));
+                    while (rs.next()) {
+                        expenses.add(new Expense(
+                                rs.getInt("expenseID"),
+                                rs.getString("title"),
+                                rs.getString("note"),
+                                rs.getDouble("amount"),
+                                rs.getString("dateIncurred")
+                        ));
+                    }
                 }
             }
         }
         return expenses;
     }
 
+
     @Override
     public ArrayList<Expense> readByMonth(int month) throws SQLException {
         ArrayList<Expense> expenses = new ArrayList<>();
 
         try (Connection conn = db.start()) {
-            if (conn == null) {
-                return expenses;
-            }
-
             try (PreparedStatement ps = conn.prepareStatement(READ_BY_MONTH)) {
                 ps.setInt(1, month);
 
@@ -118,19 +106,14 @@ public class ExpenseDAO implements ExpenseDAOInterface {
                     }
                 }
             }
-
-
         }
         return expenses;
     }
 
+
     @Override
     public boolean update(int id, Expense newExp) throws SQLException {
         try (Connection conn = db.start()) {
-            if (conn == null) {
-                return false;
-            }
-
             try (PreparedStatement ps = conn.prepareStatement(UPDATE)) {
                 ps.setString(1, newExp.getTitle());
                 ps.setString(2, newExp.getNote());
@@ -143,13 +126,10 @@ public class ExpenseDAO implements ExpenseDAOInterface {
         }
     }
 
+
     @Override
     public boolean delete(int id) throws SQLException {
         try (Connection conn = db.start()) {
-            if (conn == null) {
-                return false;
-            }
-
             try (PreparedStatement ps = conn.prepareStatement(DELETE)) {
                 ps.setInt(1, id);
                 return ps.executeUpdate() > 0;
